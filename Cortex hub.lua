@@ -70,7 +70,7 @@ local Window = Rayfield:CreateWindow({
    end,
 })
 
-local Tab = Window:CreateTab("Antis", nil)
+local Tab = Window:CreateTab("Slap farm", nil)
 
 -- Toggle oluşturma
 local Toggle = Tab:CreateToggle({
