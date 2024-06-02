@@ -69,3 +69,89 @@ local Window = Rayfield:CreateWindow({
        end
    end,
 })
+
+local Tab = Window:CreateTab("Antis", nil)
+
+-- Toggle oluşturma
+local Toggle = Tab:CreateToggle({
+   Name = "Slap farm",
+   CurrentValue = false,
+   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+       -- Value true olduğunda Toggle açık, false olduğunda kapalı
+       if Value then
+           print("Slap farm started")
+           -- Slap farm başladığında çalışacak kodlar buraya
+           startSlapFarm()
+       else
+           print("Slap farm stopped")
+           -- Slap farm durduğunda çalışacak kodlar buraya
+           stopSlapFarm()
+       end
+   end,
+})
+
+function startSlapFarm()
+   ToggleLoop = true
+   while ToggleLoop do
+      loadstring(game:HttpGet('https://raw.githubusercontent.com/ionlyusegithubformcmods/1-Line-Scripts/main/Slap%20Farm'))()
+       wait(1)
+   end
+end
+
+function stopSlapFarm()
+   ToggleLoop = false
+end
+
+local Tab = Window:CreateTab("infinite yield", nil)
+
+local Button = Tab:CreateButton({
+   Name = "İnfinite yield",
+   Callback = function()
+       loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+local Tab = Window:CreateTab("Slap aura", nil)
+
+local Toggle = Tab:CreateToggle({
+   Name = "Slap Aura",
+   CurrentValue = false,
+   Flag = "ToggleSlapAura",
+   Callback = function(Value)
+       if Value then
+           startSlapAura()
+       else
+           stopSlapAura()
+       end
+   end,
+})
+
+local isRunning = false
+
+function isSpawned(player)
+   if workspace:FindFirstChild(player.Name) and player.Character:FindFirstChild("HumanoidRootPart") then
+       return true
+   else
+       return false
+   end
+end
+
+function startSlapAura()
+   isRunning = true
+   while isRunning do
+       for _, player in pairs(game.Players:GetPlayers()) do
+           if isSpawned(player) and player ~= game.Players.LocalPlayer and not player.Character.Head:FindFirstChild("UnoReverseCard") then
+               if (player.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
+                   game:GetService("ReplicatedStorage").b:FireServer(player.Character["Right Arm"])
+                   wait(0.1)
+               end
+           end
+       end
+       wait(0.1) -- Performans iyileştirmesi için kısa bir bekleme ekleyin
+   end
+end
+
+function stopSlapAura()
+   isRunning = false
+end
