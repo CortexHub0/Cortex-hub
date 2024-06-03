@@ -29,7 +29,6 @@ local Window = Rayfield:CreateWindow({
  local MainTab = Window:CreateTab("Home", nil) -- Title, Image
  local MainSection = MainTab:CreateSection("Main")
 
-
  Rayfield:Notify({
     Title = "Thanks for using Corhub",
     Content = "Notification Content",
@@ -73,7 +72,6 @@ local Window = Rayfield:CreateWindow({
 local Tab = Window:CreateTab("Spam", nil) -- Title, Image
 
 local Section = Tab:CreateSection("Rhythm")
-
 
 local RhythmExplosionToggle = Tab:CreateToggle({
     Name = "Rhythm Explosion Spam",
@@ -243,36 +241,36 @@ local TeleportDropdown = Tab:CreateDropdown({
         elseif Value == "Arena" then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Origo.CFrame * CFrame.new(0, -5, 0)
         elseif Value == "Moai Island" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(215, -15.5, 0.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-61.02, 38, 744.37)
         elseif Value == "Slapple Island" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Arena.island5.Union.CFrame * CFrame.new(0, 3.25, 0)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3000, 150, 350)
         elseif Value == "Plate" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Arena.Plate.CFrame * CFrame.new(0, 2, 0)
-        elseif Value == "Tournament" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Battlearena.Arena.CFrame * CFrame.new(0, 10, 0)
-        elseif Value == "Default Arena" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(120, 360, -3)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.ElevatorPlate.CFrame * CFrame.new(0, 8, 0)
         elseif Value == "Lobby" then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-800, 328, -2.5)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-35, 2, 4)
+        elseif Value == "Tournament" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(21, 3, 140)
+        elseif Value == "Default Arena" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.DefaultSpawn.CFrame
         end
     end    
 })
+
+local Label = Tab:CreateLabel("All teleport locations")
+local Paragraph = Tab:CreateParagraph({Title = "Teleport Locations", Content = "Safe spot: A location where the player is protected and cannot be attacked\nArena: The main fighting area\nDefault Arena: The default spawn location in the main arena\nLobby: The starting area where players gather\nTournament: A special area for tournament matches\nMoai Island: A themed island area\nSlapple Island: An island with unique features\nPlate: An elevated plate area, possibly for viewing or staging"})
 
 local Tab = Window:CreateTab("Slap farm", nil)
 
 local Toggle = Tab:CreateToggle({
    Name = "Slap farm",
    CurrentValue = false,
-   Flag = "Toggle1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Flag = "Toggle1",
    Callback = function(Value)
-       -- Value true olduğunda Toggle açık, false olduğunda kapalı
        if Value then
            print("Slap farm started")
-           -- Slap farm başladığında çalışacak kodlar buraya
            startSlapFarm()
        else
            print("Slap farm stopped")
-           -- Slap farm durduğunda çalışacak kodlar buraya
            stopSlapFarm()
        end
    end,
@@ -293,7 +291,7 @@ end
 local Tab = Window:CreateTab("infinite yield", nil)
 
 local Button = Tab:CreateButton({
-   Name = "İnfinite yield",
+   Name = "Infinite yield",
    Callback = function()
        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
    end,
@@ -335,7 +333,7 @@ function startSlapAura()
                end
            end
        end
-       wait(0.1) -- Performans iyileştirmesi için kısa bir bekleme ekleyin
+       wait(0.1)
    end
 end
 
@@ -343,12 +341,12 @@ function stopSlapAura()
    isRunning = false
 end
 
-local Tab = Window:CreateTab("Antis", nil) -- Title, Image
+local Tab = Window:CreateTab("Antis", nil)
 
 local Toggle = Tab:CreateToggle({
     Name = "Anti admin ban",
     CurrentValue = false,
-    Flag = "Toggle1", -- Konfigürasyon dosyası için kimlik belirleyici
+    Flag = "Toggle1",
     Callback = function(Value)
         if game.PlaceId == 9431156611 then
             local bypass;
@@ -369,7 +367,7 @@ local Toggle = Tab:CreateToggle({
     end,
 })
 
-local Tab = Window:CreateTab("Emotes for free", nil) -- Title, Image
+local Tab = Window:CreateTab("Emotes for free", nil)
 
 local ToggleFreeEmotes = Tab:CreateToggle({
     Name = "Free Emotes (Type /e emotename)",
@@ -434,7 +432,7 @@ local Section = Tab:CreateSection("Slap royale")
 local Toggle = Tab:CreateToggle({
     Name = "Anti acid/Anti lava",
     CurrentValue = false,
-    Flag = "Toggle1", -- Konfigürasyon dosyası için kimlik belirleyici
+    Flag = "Toggle1", 
     Callback = function(Value)
         local AntiLava = Instance.new("Part", workspace)
         AntiLava.Name = "AntiLava"
