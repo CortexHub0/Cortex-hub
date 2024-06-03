@@ -70,9 +70,188 @@ local Window = Rayfield:CreateWindow({
    end,
 })
 
+local Tab = Window:CreateTab("Spam abilitys(You dont need to use the glove)", nil) -- Title, Image
+
+local RhythmExplosionToggle = Tab:CreateToggle({
+    Name = "Rhythm Explosion Spam (All gloves)",
+    CurrentValue = false,
+    Flag = "RhythmExplosionSpam",
+    Callback = function(Value)
+        RhythmSpam = Value
+        while RhythmSpam do
+            game:GetService("ReplicatedStorage").rhythmevent:FireServer("AoeExplosion", 0)
+            task.wait()
+        end
+    end    
+})
+
+-- Rojo Spam Toggle
+local RojoSpamToggle = Tab:CreateToggle({
+    Name = "Rojo Spam (All gloves)",
+    CurrentValue = false,
+    Flag = "RojoSpam",
+    Callback = function(Value)
+        RojoSpam = Value
+        while RojoSpam do
+            game:GetService("ReplicatedStorage"):WaitForChild("RojoAbility"):FireServer("Release", {game.Players[Person].Character.HumanoidRootPart.CFrame})
+            task.wait()
+        end
+    end    
+})
+
+-- Rojo Spam for Specific User
+local RojoUserTextbox = Tab:CreateTextbox({
+    Name = "Make person use rojo spam",
+    Default = "Username",
+    TextDisappear = false,
+    Callback = function(Value)
+        if Value == "Me" or Value == "me" or Value == "Username" or Value == "" then
+            Person = game.Players.LocalPlayer.Name
+        else
+            Person = Value
+        end
+    end    
+})
+Person = game.Players.LocalPlayer.Name
+
+-- Null Spam Toggle
+local NullSpamToggle = Tab:CreateToggle({
+    Name = "Null Spam (All gloves)",
+    CurrentValue = false,
+    Flag = "NullSpam",
+    Callback = function(Value)
+        NullSpam = Value
+        while NullSpam do
+            game:GetService("ReplicatedStorage").NullAbility:FireServer()
+            task.wait()
+        end
+    end    
+})
+
+-- Retro Spam Toggle
+local RetroSpamToggle = Tab:CreateToggle({
+    Name = "Retro Spam (All gloves)",
+    CurrentValue = false,
+    Flag = "RetroSpam",
+    Callback = function(Value)
+        RetroSpam = Value
+        while RetroSpam do
+            game:GetService("ReplicatedStorage").RetroAbility:FireServer(RetroAbility)
+            task.wait()
+        end
+    end    
+})
+
+-- Retro Ability Dropdown
+local RetroAbilityDropdown = Tab:CreateDropdown({
+    Name = "Retro Ability",
+    Default = "Rocket Launcher",
+    Options = {"Rocket Launcher", "Ban Hammer", "Bomb"},
+    Callback = function(Value)
+        RetroAbility = Value
+    end    
+})
+
+-- Killstreak Orb Spam Toggle
+local KillstreakOrbSpamToggle = Tab:CreateToggle({
+    Name = "Killstreak Orb Spam",
+    CurrentValue = false,
+    Flag = "KillstreakOrbSpam",
+    Callback = function(Value)
+        On = Value
+        while On and game.Players.LocalPlayer.leaderstats.Glove.Value == "Killstreak" do
+            game:GetService("ReplicatedStorage").KSABILI:FireServer()
+            wait(6.1)
+        end
+    end    
+})
+
+-- Auto Enter Arena Toggle
+local AutoEnterArenaToggle = Tab:CreateToggle({
+    Name = "Auto Enter Arena",
+    CurrentValue = false,
+    Flag = "AutoEnterArena",
+    Callback = function(Value)
+        AutoEnterArena = Value
+        while AutoEnterArena do
+            if game.Players.LocalPlayer.Character:FindFirstChild("entered") == nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                firetouchinterest(game.Players.LocalPlayer.Character:WaitForChild("Head"), workspace.Lobby.Teleport1, 0)
+                firetouchinterest(game.Players.LocalPlayer.Character:WaitForChild("Head"), workspace.Lobby.Teleport1, 1)
+            end
+            task.wait()
+        end
+    end
+})
+
+-- Auto Change Nametag Setup
+if game.Workspace:FindFirstChild("NametagChanged") == nil then
+    local NametagChanged = Instance.new("StringValue", workspace)
+    NametagChanged.Name = "NametagChanged"
+    NametagChanged.Value = ""
+end
+
+-- Auto Change Nametag Toggle
+local AutoChangeNametagToggle = Tab:CreateToggle({
+    Name = "Auto Change Nametag(Clientside)",
+    CurrentValue = false,
+    Flag = "AutoChangeNametag",
+    Callback = function(Value)
+        AutoChangeNameTag = Value
+        if AutoChangeNameTag == true and game.Players.LocalPlayer.Character:FindFirstChild("Nametag", true) then
+            game.Players.LocalPlayer.Character.Head.Nametag.TextLabel.Text = workspace.NametagChanged.Value
+        end
+        workspace.NametagChanged.Changed:Connect(function()
+            if AutoChangeNameTag == true and game.Players.LocalPlayer.Character:FindFirstChild("Nametag", true) then
+                game.Players.LocalPlayer.Character.Head.Nametag.TextLabel.Text = workspace.NametagChanged.Value
+            end
+        end)
+        game.Players.LocalPlayer.CharacterAdded:Connect(function()
+            if AutoChangeNameTag == true then
+                repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild("Nametag", true)
+                game.Players.LocalPlayer.Character.Head.Nametag.TextLabel.Text = workspace.NametagChanged.Value
+            end
+        end)
+    end
+})
+
+local NametagTextbox = Tab:CreateTextbox({
+    Name = "Auto Change Nametag (Clientside)",
+    Default = "Nametag",
+    TextDisappear = false,
+    Callback = function(Value)
+        workspace.NametagChanged.Value = Value
+    end    
+})
+
+local Tab = Window:CreateTab("Teleports", nil) -- Title, Image
+
+local TeleportDropdown = Tab:CreateDropdown({
+    Name = "Teleport",
+    Default = "",
+    Options = {"Safe spot", "Arena", "Default Arena", "Lobby", "Tournament", "Moai Island", "Slapple Island", "Plate"},
+    Callback = function(Value)
+        if Value == "Safe spot" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Spot.CFrame * CFrame.new(0, 28, 0)
+        elseif Value == "Arena" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Origo.CFrame * CFrame.new(0, -5, 0)
+        elseif Value == "Moai Island" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(215, -15.5, 0.5)
+        elseif Value == "Slapple Island" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Arena.island5.Union.CFrame * CFrame.new(0, 3.25, 0)
+        elseif Value == "Plate" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Arena.Plate.CFrame * CFrame.new(0, 2, 0)
+        elseif Value == "Tournament" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Battlearena.Arena.CFrame * CFrame.new(0, 10, 0)
+        elseif Value == "Default Arena" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(120, 360, -3)
+        elseif Value == "Lobby" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-800, 328, -2.5)
+        end
+    end    
+})
+
 local Tab = Window:CreateTab("Slap farm", nil)
 
--- Toggle oluşturma
 local Toggle = Tab:CreateToggle({
    Name = "Slap farm",
    CurrentValue = false,
@@ -155,3 +334,114 @@ end
 function stopSlapAura()
    isRunning = false
 end
+
+local Tab = Window:CreateTab("Antis", nil) -- Title, Image
+
+local Toggle = Tab:CreateToggle({
+    Name = "Anti admin ban",
+    CurrentValue = false,
+    Flag = "Toggle1", -- Konfigürasyon dosyası için kimlik belirleyici
+    Callback = function(Value)
+        if game.PlaceId == 9431156611 then
+            local bypass;
+            bypass = hookmetamethod(game, "__namecall", function(self, ...)
+                local method = getnamecallmethod()
+                if method == "FireServer" then
+                    local event = self
+                    if event == game.ReplicatedStorage.Events.Ban or
+                       event == game.ReplicatedStorage.Events.AdminGUI or
+                       event == game.ReplicatedStorage.Events.WS or
+                       event == game.ReplicatedStorage.Events.WS2 then
+                        return
+                    end
+                end
+                return bypass(self, ...)
+            end)
+        end
+    end,
+})
+
+local Tab = Window:CreateTab("Emotes for free", nil) -- Title, Image
+
+local ToggleFreeEmotes = Tab:CreateToggle({
+    Name = "Free Emotes (Type /e emotename)",
+    CurrentValue = false,
+    Flag = "ToggleFreeEmotes",
+    Callback = function(Value)
+        if Value then
+            local Floss = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Floss, game.Players.LocalPlayer.Character.Humanoid)
+            local Groove = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Groove, game.Players.LocalPlayer.Character.Humanoid)
+            local Headless = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Headless, game.Players.LocalPlayer.Character.Humanoid)
+            local Helicopter = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Helicopter, game.Players.LocalPlayer.Character.Humanoid)
+            local Kick = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Kick, game.Players.LocalPlayer.Character.Humanoid)
+            local L = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.L, game.Players.LocalPlayer.Character.Humanoid)
+            local Laugh = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Laugh, game.Players.LocalPlayer.Character.Humanoid)
+            local Parker = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Parker, game.Players.LocalPlayer.Character.Humanoid)
+            local Spasm = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Spasm, game.Players.LocalPlayer.Character.Humanoid)
+            local Thriller = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Thriller, game.Players.LocalPlayer.Character.Humanoid)
+            
+            local EP
+
+            game.Players.LocalPlayer.Chatted:Connect(function(msg)
+                if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                    if string.lower(msg) == "/e floss" then
+                        Floss:Play()
+                    elseif string.lower(msg) == "/e groove" then
+                        Groove:Play()
+                    elseif string.lower(msg) == "/e headless" then
+                        Headless:Play()
+                    elseif string.lower(msg) == "/e helicopter" then
+                        Helicopter:Play()
+                    elseif string.lower(msg) == "/e kick" then
+                        Kick:Play()
+                    elseif string.lower(msg) == "/e l" then
+                        L:Play()
+                    elseif string.lower(msg) == "/e laugh" then
+                        Laugh:Play()
+                    elseif string.lower(msg) == "/e parker" then
+                        Parker:Play()
+                    elseif string.lower(msg) == "/e spasm" then
+                        Spasm:Play()
+                    elseif string.lower(msg) == "/e thriller" then
+                        Thriller:Play()
+                    end
+                    EP = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+                end
+            end)
+
+            game:GetService("RunService").Heartbeat:Connect(function()
+                if EP ~= nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and (Floss.IsPlaying or Groove.IsPlaying or Headless.IsPlaying or Helicopter.IsPlaying or Kick.IsPlaying or L.IsPlaying or Laugh.IsPlaying or Parker.IsPlaying or Spasm.IsPlaying or Thriller.IsPlaying) then
+                    local Magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - EP).Magnitude
+                    if Magnitude > 1 then
+                        Floss:Stop(); Groove:Stop(); Headless:Stop(); Helicopter:Stop(); Kick:Stop(); L:Stop(); Laugh:Stop(); Parker:Stop(); Spasm:Stop(); Thriller:Stop()
+                    end
+                end
+            end)
+        end
+    end
+})
+
+local Section = Tab:CreateSection("Slap royale")
+
+local Toggle = Tab:CreateToggle({
+    Name = "Anti acid/Anti lava",
+    CurrentValue = false,
+    Flag = "Toggle1", -- Konfigürasyon dosyası için kimlik belirleyici
+    Callback = function(Value)
+        local AntiLava = Instance.new("Part", workspace)
+        AntiLava.Name = "AntiLava"
+        AntiLava.Position = Vector3.new(-238, -43, 401)
+        AntiLava.Size = Vector3.new(150, 30, 150)
+        AntiLava.Anchored = true
+        AntiLava.Transparency = 1
+        AntiLava.CanCollide = false
+
+        local AntiAcid = Instance.new("Part", workspace)
+        AntiAcid.Name = "AntiAcid"
+        AntiAcid.Position = Vector3.new(-70, -20, -725)
+        AntiAcid.Size = Vector3.new(155, 35, 144)
+        AntiAcid.Anchored = true
+        AntiAcid.Transparency = 1
+        AntiAcid.CanCollide = false
+    end,
+})
