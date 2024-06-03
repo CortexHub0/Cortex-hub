@@ -193,6 +193,9 @@ function stopSlapFarm()
     SlapFarmEnabled = false
 end
 
+local isSlapAuraActive = false
+
+
 local SlapAuraTab = Window:MakeTab({
     Name = "Slap Aura",
     PremiumOnly = false
@@ -201,8 +204,6 @@ local SlapAuraTab = Window:MakeTab({
 local SlapAuraSection = SlapAuraTab:AddSection({
     Name = "Slap Aura"
 })
-
-local isSlapAuraActive = false
 
 local SlapAuraToggle = SlapAuraSection:AddToggle({
     Name = "Slap Aura",
@@ -336,4 +337,5 @@ BadgeSection:AddButton({
         game:GetService("TeleportService"):Teleport(11828384869)
     end
 })
+
 OrionLib:Init()
