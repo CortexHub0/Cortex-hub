@@ -1,35 +1,28 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/OrionTheDev/orionlib/master/orionlib.lua"))()
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 
-local Window = library:CreateWindow({
+local Window = OrionLib:MakeWindow({
     Name = "Cortex hub",
-    LoadingTitle = "Corhub",
-    LoadingSubtitle = "by Cortex",
-    Discord = {
-        Enabled = true,
-        Invite = "Cortex Exploits",
-        RememberJoins = true
-    }
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "OrionConfig"
 })
 
-local MainTab = Window:CreateTab("Ana Sayfa", nil)
-local MainSection = MainTab:CreateSection("Main")
+local MainTab = Window:MakeTab({
+    Name = "Ana Sayfa",
+    PremiumOnly = false
+})
 
-library:Notify({
-    Title = "Thanks for using Corhub",
+local MainSection = MainTab:AddSection({
+    Name = "Main"
+})
+
+OrionLib:MakeNotification({
+    Name = "Thanks for using Corhub",
     Content = "Notification Content",
-    Duration = 3,
-    Image = nil,
-    Actions = {
-        Ignore = {
-            Name = "Okay!",
-            Callback = function()
-                print("Thanks!")
-            end
-        },
-    },
+    Time = 3
 })
 
-local Button = MainTab:CreateButton({
+local Button = MainSection:AddButton({
     Name = "No cooldown",
     Callback = function()
         local player = game.Players.LocalPlayer
@@ -51,45 +44,52 @@ local Button = MainTab:CreateButton({
         else
             warn("No tool found in character or backpack.")
         end
-    end,
+    end
 })
 
-local Tab = library:CreateTab("Spam", nil)
+local SpamTab = Window:MakeTab({
+    Name = "Spam",
+    PremiumOnly = false
+})
 
-local Section = Tab:CreateSection("Rhythm")
+local RhythmSection = SpamTab:AddSection({
+    Name = "Rhythm"
+})
 
-local RhythmExplosionToggle = Tab:CreateToggle({
+local RhythmExplosionToggle = RhythmSection:AddToggle({
     Name = "Rhythm Explosion Spam",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        RhythmSpam = Value
-        while RhythmSpam do
+        while Value do
             game:GetService("ReplicatedStorage").rhythmevent:FireServer("AoeExplosion", 0)
             wait()
         end
     end    
 })
 
-local Section = Tab:CreateSection("Rojo")
+local RojoSection = SpamTab:AddSection({
+    Name = "Rojo"
+})
 
-local RojoSpamToggle = Tab:CreateToggle({
+local RojoSpamToggle = RojoSection:AddToggle({
     Name = "Rojo Spam",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        RojoSpam = Value
-        while RojoSpam do
-            game:GetService("ReplicatedStorage"):WaitForChild("RojoAbility"):FireServer("Release", {game.Players[Person].Character.HumanoidRootPart.CFrame})
+        while Value do
+            game:GetService("ReplicatedStorage"):WaitForChild("RojoAbility"):FireServer("Release", {game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame})
             wait()
         end
     end    
 })
 
-local Section = Tab:CreateSection("Named Rojo")
+local NamedRojoSection = SpamTab:AddSection({
+    Name = "Named Rojo"
+})
 
-local RojoUserTextbox = Tab:CreateTextbox({
+local Person = game.Players.LocalPlayer.Name
+local RojoUserTextbox = NamedRojoSection:AddTextbox({
     Name = "Make person use rojo spam",
     Default = "Username",
-    TextDisappear = false,
     Callback = function(Value)
         if Value == "Me" or Value == "me" or Value == "Username" or Value == "" then
             Person = game.Players.LocalPlayer.Name
@@ -98,37 +98,38 @@ local RojoUserTextbox = Tab:CreateTextbox({
         end
     end    
 })
-Person = game.Players.LocalPlayer.Name
 
-local Section = Tab:CreateSection("Null")
+local NullSection = SpamTab:AddSection({
+    Name = "Null"
+})
 
-local NullSpamToggle = Tab:CreateToggle({
+local NullSpamToggle = NullSection:AddToggle({
     Name = "Null Spam",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        NullSpam = Value
-        while NullSpam do
+        while Value do
             game:GetService("ReplicatedStorage").NullAbility:FireServer()
             wait()
         end
     end    
 })
 
-local Section = Tab:CreateSection("Retro")
+local RetroSection = SpamTab:AddSection({
+    Name = "Retro"
+})
 
-local RetroSpamToggle = Tab:CreateToggle({
+local RetroSpamToggle = RetroSection:AddToggle({
     Name = "Retro Spam (All gloves)",
-    CurrentValue = false,
+    Default = false,
     Callback = function(Value)
-        RetroSpam = Value
-        while RetroSpam do
+        while Value do
             game:GetService("ReplicatedStorage").RetroAbility:FireServer(RetroAbility)
             wait()
         end
     end    
 })
 
-local RetroAbilityDropdown = Tab:CreateDropdown({
+local RetroAbilityDropdown = RetroSection:AddDropdown({
     Name = "Retro Ability",
     Default = "Rocket Launcher",
     Options = {"Rocket Launcher", "Ban Hammer", "Bomb"},
@@ -137,11 +138,18 @@ local RetroAbilityDropdown = Tab:CreateDropdown({
     end    
 })
 
-local Tab = library:CreateTab("Slap farm", nil)
-
-local Toggle = Tab:CreateToggle({
+local SlapFarmTab = Window:MakeTab({
     Name = "Slap farm",
-    CurrentValue = false,
+    PremiumOnly = false
+})
+
+local SlapFarmSection = SlapFarmTab:AddSection({
+    Name = "Slap farm"
+})
+
+local SlapFarmToggle = SlapFarmSection:AddToggle({
+    Name = "Slap farm",
+    Default = false,
     Callback = function(Value)
         if Value then
             print("Slap farm started")
@@ -165,45 +173,11 @@ function stopSlapFarm()
     ToggleLoop = false
 end
 
-local Tab = library:CreateTab("Slap aura", nil)
-
-local Toggle = Tab:CreateToggle({
-    Name = "Slap Aura",
-    CurrentValue = false,
-    Callback = function(Value)
-        if Value then
-            startSlapAura()
-        else
-            stopSlapAura()
-        end
-    end,
+local AntiTab = Window:MakeTab({
+    Name = "Antis",
+    PremiumOnly = false
 })
 
-local isRunning = false
-
-function isSpawned(player)
-    if workspace:FindFirstChild(player.Name) and player.Character:FindFirstChild("HumanoidRootPart") then
-        return true
-    else
-        return false
-    end
-end
-
-function startSlapAura()
-    isRunning = true
-    while isRunning do
-        for _, player in pairs(game.Players:GetPlayers()) do
-            if isSpawned(player) and player ~= game.Players.LocalPlayer and not player.Character.Head:FindFirstChild("UnoReverseCard") then
-                if (player.Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
-                    game:GetService("ReplicatedStorage").b:FireServer(player.Character["Right Arm"])
-                    wait(0.1)
-                end
-            end
-        end
-        wait(0.1)
-    end
-end
-
-function stopSlapAura()
-    isRunning = false
-end
+local AntiSection = AntiTab:AddSection({
+    Name = "Anti admin ban(Not finished)"
+})
