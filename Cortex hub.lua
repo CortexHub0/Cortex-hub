@@ -11,7 +11,7 @@ local Window = library:CreateWindow({
     }
 })
 
-local MainTab = Window:CreateTab("Ana Sayfa", nil)
+local MainTab = library:CreateTab("Ana Sayfa", nil)
 local MainSection = MainTab:CreateSection("Main")
 
 library:Notify({
@@ -19,7 +19,7 @@ library:Notify({
     Content = "Notification Content",
     Duration = 3,
     Image = nil,
-    Actions = { -- Bildirim Düğmeleri
+    Actions = {
         Ignore = {
             Name = "Okay!",
             Callback = function()
@@ -54,7 +54,7 @@ local Button = MainTab:CreateButton({
     end,
 })
 
-local Tab = Window:CreateTab("Spam", nil) -- Başlık, Resim
+local Tab = library:CreateTab("Spam", nil)
 
 local Section = Tab:CreateSection("Rhythm")
 
@@ -137,7 +137,7 @@ local RetroAbilityDropdown = Tab:CreateDropdown({
     end    
 })
 
-local Tab = Window:CreateTab("Slap farm", nil)
+local Tab = library:CreateTab("Slap farm", nil)
 
 local Toggle = Tab:CreateToggle({
     Name = "Slap farm",
@@ -165,7 +165,7 @@ function stopSlapFarm()
     ToggleLoop = false
 end
 
-local Tab = Window:CreateTab("Slap aura", nil)
+local Tab = library:CreateTab("Slap aura", nil)
 
 local Toggle = Tab:CreateToggle({
     Name = "Slap Aura",
@@ -208,7 +208,7 @@ function stopSlapAura()
     isRunning = false
 end
 
-local Tab = Window:CreateTab("Antis", nil)
+local Tab = library:CreateTab("Antis", nil)
 
 local Toggle = Tab:CreateToggle({
     Name = "Anti admin ban",
