@@ -268,7 +268,7 @@ local TeleportDropdown = TeleportsSection:AddDropdown({
         elseif Value == "Default Arena" then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.DefaultSpawn.CFrame
         end
-    end    
+    end
 })
 
 local SlapRoyaleTab = Window:MakeTab({
@@ -319,7 +319,7 @@ local ToggleAntiAcidLava = SlapRoyaleSection:AddToggle({
                 AntiAcid = nil
             end
         end
-    end,
+    end
 })
 
 local BadgeTab = Window:MakeTab({
