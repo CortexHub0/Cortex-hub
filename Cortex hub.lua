@@ -14,6 +14,21 @@ local Window = library:CreateWindow({
 local MainTab = Window:CreateTab("Ana Sayfa", nil)
 local MainSection = MainTab:CreateSection("Main")
 
+library:Notify({
+    Title = "Thanks for using Corhub",
+    Content = "Notification Content",
+    Duration = 3,
+    Image = nil,
+    Actions = { -- Notification Buttons
+       Ignore = {
+          Name = "Okay!",
+          Callback = function()
+          print("Thanks!")
+       end
+    },
+ },
+})
+
 local Button = MainTab:CreateButton({
    Name = "No cooldown",
    Callback = function()
@@ -39,7 +54,7 @@ local Button = MainTab:CreateButton({
    end,
 })
 
-local Tab = Window:CreateTab("Spam", nil)
+local Tab = Window:CreateTab("Spam", nil) -- Title, Image
 
 local Section = Tab:CreateSection("Rhythm")
 
@@ -159,46 +174,6 @@ local AutoEnterArenaToggle = Tab:CreateToggle({
     end
 })
 
-local Tab = Window:CreateTab("Nametag", nil)
-
-if game.Workspace:FindFirstChild("NametagChanged") == nil then
-    local NametagChanged = Instance.new("StringValue", workspace)
-    NametagChanged.Name = "NametagChanged"
-    NametagChanged.Value = ""
-end
-
-local AutoChangeNametagToggle = Tab:CreateToggle({
-    Name = "Auto Change Nametag(Clientside)",
-    CurrentValue = false,
-    Flag = "AutoChangeNametag",
-    Callback = function(Value)
-        AutoChangeNameTag = Value
-        if AutoChangeNameTag == true and game.Players.LocalPlayer.Character:FindFirstChild("Nametag", true) then
-            game.Players.LocalPlayer.Character.Head.Nametag.TextLabel.Text = workspace.NametagChanged.Value
-        end
-        workspace.NametagChanged.Changed:Connect(function()
-            if AutoChangeNameTag == true and game.Players.LocalPlayer.Character:FindFirstChild("Nametag", true) then
-                game.Players.LocalPlayer.Character.Head.Nametag.TextLabel.Text = workspace.NametagChanged.Value
-            end
-        end)
-        game.Players.LocalPlayer.CharacterAdded:Connect(function()
-            if AutoChangeNameTag == true then
-                repeat task.wait() until game.Players.LocalPlayer.Character:FindFirstChild("Nametag", true)
-                game.Players.LocalPlayer.Character.Head.Nametag.TextLabel.Text = workspace.NametagChanged.Value
-            end
-        end)
-    end
-})
-
-local NametagTextbox = Tab:CreateTextbox({
-    Name = "Auto Change Nametag (Clientside)",
-    Default = "Nametag",
-    TextDisappear = false,
-    Callback = function(Value)
-        workspace.NametagChanged.Value = Value
-    end    
-})
-
 local Tab = Window:CreateTab("Teleports", nil) -- Title, Image
 
 local TeleportDropdown = Tab:CreateDropdown({
@@ -225,9 +200,6 @@ local TeleportDropdown = Tab:CreateDropdown({
         end
     end    
 })
-
-local Label = Tab:CreateLabel("All teleport locations")
-local Paragraph = Tab:CreateParagraph({Title = "Teleport Locations", Content = "Safe spot: A location where the player is protected and cannot be attacked\nArena: The main fighting area\nDefault Arena: The default spawn location in the main arena\nLobby: The starting area where players gather\nTournament: A special area for tournament matches\nMoai Island: A themed island area\nSlapple Island: An island with unique features\nPlate: An elevated plate area, possibly for viewing or staging"})
 
 local Tab = Window:CreateTab("Slap farm", nil)
 
@@ -327,75 +299,12 @@ function isSpawned(player)
                      if event == game.ReplicatedStorage.Events.Ban or
                         event == game.ReplicatedStorage.Events.AdminGUI or
                         event == game.ReplicatedStorage.Events.WS or
-                        event == game.Replicated.Storage.Events.WS2 then
-                            return
-                        end
-                    end
-                    return bypass(self, ...)
-                end)
-            end
-        end,
-    })
-    
-    local Tab = Window:CreateTab("Emotes for free", nil)
-    
-    local ToggleFreeEmotes = Tab:CreateToggle({
-        Name = "Free Emotes (Type /e emotename)",
-        CurrentValue = false,
-        Flag = "ToggleFreeEmotes",
-        Callback = function(Value)
-            if Value then
-                local Floss = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Floss, game.Players.LocalPlayer.Character.Humanoid)
-                local Groove = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Groove, game.Players.LocalPlayer.Character.Humanoid)
-                local Headless = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Headless, game.Players.LocalPlayer.Character.Humanoid)
-                local Helicopter = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Helicopter, game.Players.LocalPlayer.Character.Humanoid)
-                local Kick = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Kick, game.Players.LocalPlayer.Character.Humanoid)
-                local L = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.L, game.Players.LocalPlayer.Character.Humanoid)
-                local Laugh = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Laugh, game.Players.LocalPlayer.Character.Humanoid)
-                local Parker = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Parker, game.Players.LocalPlayer.Character.Humanoid)
-                local Spasm = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Spasm, game.Players.LocalPlayer.Character.Humanoid)
-                local Thriller = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Thriller, game.Players.LocalPlayer.Character.Humanoid)
-                
-                local EP
-    
-                game.Players.LocalPlayer.Chatted:Connect(function(msg)
-                    if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                        if string.lower(msg) == "/e floss" then
-                            Floss:Play()
-                        elseif string.lower(msg) == "/e groove" then
-                            Groove:Play()
-                        elseif string.lower(msg) == "/e headless" then
-                            Headless:Play()
-                        elseif string.lower(msg) == "/e helicopter" then
-                            Helicopter:Play()
-                        elseif string.lower(msg) == "/e kick" then
-                            Kick:Play()
-                        elseif string.lower(msg) == "/e l" then
-                            L:Play()
-                        elseif string.lower(msg) == "/e laugh" then
-                            Laugh:Play()
-                        elseif string.lower(msg) == "/e parker" then
-                            Parker:Play()
-                        elseif string.lower(msg) == "/e spasm" then
-                            Spasm:Play()
-                        elseif string.lower(msg) == "/e thriller" then
-                            Thriller:Play()
-                        end
-                        EP = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-                    end
-                end)
-    
-                game:GetService("RunService").Heartbeat:Connect(function()
-                    if EP ~= nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and (Floss.IsPlaying or Groove.IsPlaying or Headless.IsPlaying or Helicopter.IsPlaying or Kick.IsPlaying or L.IsPlaying or Laugh.IsPlaying or Parker.IsPlaying or Spasm.IsPlaying or Thriller.IsPlaying) then
-                        local Magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - EP).Magnitude
-                        if Magnitude > 1 then
-                           game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(EP)
-                       end
-                   end
-               end)
-           else
-
-           end
-       end
-   }) 
-   
+                        event == game.ReplicatedStorage.Events.WS2 then
+                         return
+                     end
+                 end
+                 return bypass(self, ...)
+             end)
+         end
+     end,
+ })
