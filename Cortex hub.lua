@@ -1,5 +1,7 @@
+-- OrionLib kütüphanesini yükle
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/OrionTheDev/orionlib/master/orionlib.lua"))()
 
+-- Pencere oluştur
 local Window = library:CreateWindow({
     Name = "Cortex hub",
     LoadingTitle = "Corhub",
@@ -11,9 +13,11 @@ local Window = library:CreateWindow({
     }
 })
 
-local MainTab = library:CreateTab("Ana Sayfa", nil)
+-- Ana sekme oluştur
+local MainTab = Window:CreateTab("Ana Sayfa", nil)
 local MainSection = MainTab:CreateSection("Main")
 
+-- Bildirim göster
 library:Notify({
     Title = "Thanks for using Corhub",
     Content = "Notification Content",
@@ -29,6 +33,7 @@ library:Notify({
     },
 })
 
+-- Buton oluştur
 local Button = MainTab:CreateButton({
     Name = "No cooldown",
     Callback = function()
@@ -54,10 +59,13 @@ local Button = MainTab:CreateButton({
     end,
 })
 
+-- Spam sekmesi oluştur
 local Tab = library:CreateTab("Spam", nil)
 
+-- Rhythm bölümü oluştur
 local Section = Tab:CreateSection("Rhythm")
 
+-- Rhythm Explosion Spam anahtarı oluştur
 local RhythmExplosionToggle = Tab:CreateToggle({
     Name = "Rhythm Explosion Spam",
     CurrentValue = false,
@@ -70,8 +78,10 @@ local RhythmExplosionToggle = Tab:CreateToggle({
     end    
 })
 
+-- Rojo bölümü oluştur
 local Section = Tab:CreateSection("Rojo")
 
+-- Rojo Spam anahtarı oluştur
 local RojoSpamToggle = Tab:CreateToggle({
     Name = "Rojo Spam",
     CurrentValue = false,
@@ -84,8 +94,10 @@ local RojoSpamToggle = Tab:CreateToggle({
     end    
 })
 
+-- Named Rojo bölümü oluştur
 local Section = Tab:CreateSection("Named Rojo")
 
+-- Rojo kullanıcısı için metin kutusu oluştur
 local RojoUserTextbox = Tab:CreateTextbox({
     Name = "Make person use rojo spam",
     Default = "Username",
@@ -100,8 +112,10 @@ local RojoUserTextbox = Tab:CreateTextbox({
 })
 Person = game.Players.LocalPlayer.Name
 
+-- Null bölümü oluştur
 local Section = Tab:CreateSection("Null")
 
+-- Null Spam anahtarı oluştur
 local NullSpamToggle = Tab:CreateToggle({
     Name = "Null Spam",
     CurrentValue = false,
@@ -114,8 +128,10 @@ local NullSpamToggle = Tab:CreateToggle({
     end    
 })
 
+-- Retro bölümü oluştur
 local Section = Tab:CreateSection("Retro")
 
+-- Retro Spam anahtarı oluştur
 local RetroSpamToggle = Tab:CreateToggle({
     Name = "Retro Spam (All gloves)",
     CurrentValue = false,
@@ -128,6 +144,7 @@ local RetroSpamToggle = Tab:CreateToggle({
     end    
 })
 
+-- Retro Ability açılır menüsü oluştur
 local RetroAbilityDropdown = Tab:CreateDropdown({
     Name = "Retro Ability",
     Default = "Rocket Launcher",
@@ -137,8 +154,10 @@ local RetroAbilityDropdown = Tab:CreateDropdown({
     end    
 })
 
+-- Slap farm sekmesi oluştur
 local Tab = library:CreateTab("Slap farm", nil)
 
+-- Slap farm anahtarı oluştur
 local Toggle = Tab:CreateToggle({
     Name = "Slap farm",
     CurrentValue = false,
@@ -153,20 +172,24 @@ local Toggle = Tab:CreateToggle({
     end,
 })
 
+-- Slap farm fonksiyonunu başlat
 function startSlapFarm()
     ToggleLoop = true
     while ToggleLoop do
-        loadstring(game:HttpGet('https://raw.githubusercontent.com/ionlyusegithubformcmods/1-Line-Scripts/main/Slap%20Farm'))()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/ionlyusegithubformcmods/1-Line-Scripts/main/SlapFarm'))()
         wait(1)
     end
 end
 
+-- Slap farm fonksiyonunu durdur
 function stopSlapFarm()
     ToggleLoop = false
 end
 
+-- Slap aura sekmesi oluştur
 local Tab = library:CreateTab("Slap aura", nil)
 
+-- Slap Aura anahtarı oluştur
 local Toggle = Tab:CreateToggle({
     Name = "Slap Aura",
     CurrentValue = false,
@@ -181,6 +204,7 @@ local Toggle = Tab:CreateToggle({
 
 local isRunning = false
 
+-- Oyuncu spawn edildi mi kontrol et
 function isSpawned(player)
     if workspace:FindFirstChild(player.Name) and player.Character:FindFirstChild("HumanoidRootPart") then
         return true
@@ -189,6 +213,7 @@ function isSpawned(player)
     end
 end
 
+-- Slap Aura fonksiyonunu başlat
 function startSlapAura()
     isRunning = true
     while isRunning do
@@ -204,12 +229,15 @@ function startSlapAura()
     end
 end
 
+-- Slap Aura fonksiyonunu durdur
 function stopSlapAura()
     isRunning = false
 end
 
+-- Antis sekmesi oluştur
 local Tab = library:CreateTab("Antis", nil)
 
+-- Anti admin ban anahtarı oluştur
 local Toggle = Tab:CreateToggle({
     Name = "Anti admin ban",
     CurrentValue = false,
