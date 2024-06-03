@@ -336,3 +336,4 @@ BadgeSection:AddButton({
         game:GetService("TeleportService"):Teleport(11828384869)
     end
 })
+OrionLib:Init()
