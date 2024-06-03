@@ -70,10 +70,13 @@ local Window = Rayfield:CreateWindow({
    end,
 })
 
-local Tab = Window:CreateTab("Spam abilitys(You dont need to use the glove)", nil) -- Title, Image
+local Tab = Window:CreateTab("Spam", nil) -- Title, Image
+
+local Section = Tab:CreateSection("Rhythm")
+
 
 local RhythmExplosionToggle = Tab:CreateToggle({
-    Name = "Rhythm Explosion Spam (All gloves)",
+    Name = "Rhythm Explosion Spam",
     CurrentValue = false,
     Flag = "RhythmExplosionSpam",
     Callback = function(Value)
@@ -85,9 +88,10 @@ local RhythmExplosionToggle = Tab:CreateToggle({
     end    
 })
 
--- Rojo Spam Toggle
+local Section = Tab:CreateSection("Rojo")
+
 local RojoSpamToggle = Tab:CreateToggle({
-    Name = "Rojo Spam (All gloves)",
+    Name = "Rojo Spam",
     CurrentValue = false,
     Flag = "RojoSpam",
     Callback = function(Value)
@@ -99,7 +103,8 @@ local RojoSpamToggle = Tab:CreateToggle({
     end    
 })
 
--- Rojo Spam for Specific User
+local Section = Tab:CreateSection("Named Rojo")
+
 local RojoUserTextbox = Tab:CreateTextbox({
     Name = "Make person use rojo spam",
     Default = "Username",
@@ -114,7 +119,8 @@ local RojoUserTextbox = Tab:CreateTextbox({
 })
 Person = game.Players.LocalPlayer.Name
 
--- Null Spam Toggle
+local Section = Tab:CreateSection("Null")
+
 local NullSpamToggle = Tab:CreateToggle({
     Name = "Null Spam (All gloves)",
     CurrentValue = false,
@@ -128,7 +134,8 @@ local NullSpamToggle = Tab:CreateToggle({
     end    
 })
 
--- Retro Spam Toggle
+local Section = Tab:CreateSection("Retro")
+
 local RetroSpamToggle = Tab:CreateToggle({
     Name = "Retro Spam (All gloves)",
     CurrentValue = false,
@@ -142,7 +149,6 @@ local RetroSpamToggle = Tab:CreateToggle({
     end    
 })
 
--- Retro Ability Dropdown
 local RetroAbilityDropdown = Tab:CreateDropdown({
     Name = "Retro Ability",
     Default = "Rocket Launcher",
@@ -152,7 +158,8 @@ local RetroAbilityDropdown = Tab:CreateDropdown({
     end    
 })
 
--- Killstreak Orb Spam Toggle
+local Section = Tab:CreateSection("Killstreak")
+
 local KillstreakOrbSpamToggle = Tab:CreateToggle({
     Name = "Killstreak Orb Spam",
     CurrentValue = false,
@@ -166,7 +173,8 @@ local KillstreakOrbSpamToggle = Tab:CreateToggle({
     end    
 })
 
--- Auto Enter Arena Toggle
+local Tab = Window:CreateTab("Arena", nil)
+
 local AutoEnterArenaToggle = Tab:CreateToggle({
     Name = "Auto Enter Arena",
     CurrentValue = false,
@@ -183,14 +191,14 @@ local AutoEnterArenaToggle = Tab:CreateToggle({
     end
 })
 
--- Auto Change Nametag Setup
+local Tab = Window:CreateTab("Namtag", nil)
+
 if game.Workspace:FindFirstChild("NametagChanged") == nil then
     local NametagChanged = Instance.new("StringValue", workspace)
     NametagChanged.Name = "NametagChanged"
     NametagChanged.Value = ""
 end
 
--- Auto Change Nametag Toggle
 local AutoChangeNametagToggle = Tab:CreateToggle({
     Name = "Auto Change Nametag(Clientside)",
     CurrentValue = false,
