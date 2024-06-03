@@ -1,4 +1,6 @@
-local Window = Rayfield:CreateWindow({
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/OrionTheDev/orionlib/master/orionlib.lua"))()
+
+local Window = library:CreateWindow({
     Name = "Cortex hub",
     LoadingTitle = "Corhub",
     LoadingSubtitle = "by Cortex",
@@ -11,21 +13,6 @@ local Window = Rayfield:CreateWindow({
 
 local MainTab = Window:CreateTab("Ana Sayfa", nil)
 local MainSection = MainTab:CreateSection("Main")
-
-Rayfield:Notify({
-    Title = "Thanks for using Corhub",
-    Content = "Notification Content",
-    Duration = 3,
-    Image = nil,
-    Actions = { -- Notification Buttons
-       Ignore = {
-          Name = "Okay!",
-          Callback = function()
-          print("Thanks!")
-       end
-    },
- },
-})
 
 local Button = MainTab:CreateButton({
    Name = "No cooldown",
@@ -52,7 +39,7 @@ local Button = MainTab:CreateButton({
    end,
 })
 
-local Tab = Window:CreateTab("Spam", nil) -- Title, Image
+local Tab = Window:CreateTab("Spam", nil)
 
 local Section = Tab:CreateSection("Rhythm")
 
@@ -172,9 +159,6 @@ local AutoEnterArenaToggle = Tab:CreateToggle({
     end
 })
 
-local Tab = Window:CreateTab("Nametag", nil)
-
-if game.Workspace:Find
 local Tab = Window:CreateTab("Nametag", nil)
 
 if game.Workspace:FindFirstChild("NametagChanged") == nil then
@@ -343,75 +327,75 @@ function isSpawned(player)
                      if event == game.ReplicatedStorage.Events.Ban or
                         event == game.ReplicatedStorage.Events.AdminGUI or
                         event == game.ReplicatedStorage.Events.WS or
-                        event == game.ReplicatedStorage.Events.WS2 then
-                         return
-                     end
-                 end
-                 return bypass(self, ...)
-             end)
-         end
-     end,
- })
- 
- local Tab = Window:CreateTab("Emotes for free", nil)
- 
- local ToggleFreeEmotes = Tab:CreateToggle({
-     Name = "Free Emotes (Type /e emotename)",
-     CurrentValue = false,
-     Flag = "ToggleFreeEmotes",
-     Callback = function(Value)
-         if Value then
-             local Floss = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Floss, game.Players.LocalPlayer.Character.Humanoid)
-             local Groove = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Groove, game.Players.LocalPlayer.Character.Humanoid)
-             local Headless = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Headless, game.Players.LocalPlayer.Character.Humanoid)
-             local Helicopter = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Helicopter, game.Players.LocalPlayer.Character.Humanoid)
-             local Kick = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Kick, game.Players.LocalPlayer.Character.Humanoid)
-             local L = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.L, game.Players.LocalPlayer.Character.Humanoid)
-             local Laugh = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Laugh, game.Players.LocalPlayer.Character.Humanoid)
-             local Parker = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Parker, game.Players.LocalPlayer.Character.Humanoid)
-             local Spasm = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Spasm, game.Players.LocalPlayer.Character.Humanoid)
-             local Thriller = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Thriller, game.Players.LocalPlayer.Character.Humanoid)
-             
-             local EP
- 
-             game.Players.LocalPlayer.Chatted:Connect(function(msg)
-                 if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                     if string.lower(msg) == "/e floss" then
-                         Floss:Play()
-                     elseif string.lower(msg) == "/e groove" then
-                         Groove:Play()
-                     elseif string.lower(msg) == "/e headless" then
-                         Headless:Play()
-                     elseif string.lower(msg) == "/e helicopter" then
-                         Helicopter:Play()
-                     elseif string.lower(msg) == "/e kick" then
-                         Kick:Play()
-                     elseif string.lower(msg) == "/e l" then
-                         L:Play()
-                     elseif string.lower(msg) == "/e laugh" then
-                         Laugh:Play()
-                     elseif string.lower(msg) == "/e parker" then
-                         Parker:Play()
-                     elseif string.lower(msg) == "/e spasm" then
-                         Spasm:Play()
-                     elseif string.lower(msg) == "/e thriller" then
-                         Thriller:Play()
-                     end
-                     EP = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-                 end
-             end)
- 
-             game:GetService("RunService").Heartbeat:Connect(function()
-                 if EP ~= nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and (Floss.IsPlaying or Groove.IsPlaying or Headless.IsPlaying or Helicopter.IsPlaying or Kick.IsPlaying or L.IsPlaying or Laugh.IsPlaying or Parker.IsPlaying or Spasm.IsPlaying or Thriller.IsPlaying) then
-                     local Magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - EP).Magnitude
-                     if Magnitude > 1 then
-                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(EP)
+                        event == game.Replicated.Storage.Events.WS2 then
+                            return
+                        end
                     end
-                end
-            end)
-        else
-            -- Release animations if needed
-        end
-    end
-}) 
+                    return bypass(self, ...)
+                end)
+            end
+        end,
+    })
+    
+    local Tab = Window:CreateTab("Emotes for free", nil)
+    
+    local ToggleFreeEmotes = Tab:CreateToggle({
+        Name = "Free Emotes (Type /e emotename)",
+        CurrentValue = false,
+        Flag = "ToggleFreeEmotes",
+        Callback = function(Value)
+            if Value then
+                local Floss = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Floss, game.Players.LocalPlayer.Character.Humanoid)
+                local Groove = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Groove, game.Players.LocalPlayer.Character.Humanoid)
+                local Headless = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Headless, game.Players.LocalPlayer.Character.Humanoid)
+                local Helicopter = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Helicopter, game.Players.LocalPlayer.Character.Humanoid)
+                local Kick = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Kick, game.Players.LocalPlayer.Character.Humanoid)
+                local L = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.L, game.Players.LocalPlayer.Character.Humanoid)
+                local Laugh = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Laugh, game.Players.LocalPlayer.Character.Humanoid)
+                local Parker = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Parker, game.Players.LocalPlayer.Character.Humanoid)
+                local Spasm = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Spasm, game.Players.LocalPlayer.Character.Humanoid)
+                local Thriller = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.ReplicatedStorage.AnimationPack.Thriller, game.Players.LocalPlayer.Character.Humanoid)
+                
+                local EP
+    
+                game.Players.LocalPlayer.Chatted:Connect(function(msg)
+                    if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        if string.lower(msg) == "/e floss" then
+                            Floss:Play()
+                        elseif string.lower(msg) == "/e groove" then
+                            Groove:Play()
+                        elseif string.lower(msg) == "/e headless" then
+                            Headless:Play()
+                        elseif string.lower(msg) == "/e helicopter" then
+                            Helicopter:Play()
+                        elseif string.lower(msg) == "/e kick" then
+                            Kick:Play()
+                        elseif string.lower(msg) == "/e l" then
+                            L:Play()
+                        elseif string.lower(msg) == "/e laugh" then
+                            Laugh:Play()
+                        elseif string.lower(msg) == "/e parker" then
+                            Parker:Play()
+                        elseif string.lower(msg) == "/e spasm" then
+                            Spasm:Play()
+                        elseif string.lower(msg) == "/e thriller" then
+                            Thriller:Play()
+                        end
+                        EP = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+                    end
+                end)
+    
+                game:GetService("RunService").Heartbeat:Connect(function()
+                    if EP ~= nil and game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and (Floss.IsPlaying or Groove.IsPlaying or Headless.IsPlaying or Helicopter.IsPlaying or Kick.IsPlaying or L.IsPlaying or Laugh.IsPlaying or Parker.IsPlaying or Spasm.IsPlaying or Thriller.IsPlaying) then
+                        local Magnitude = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - EP).Magnitude
+                        if Magnitude > 1 then
+                           game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(EP)
+                       end
+                   end
+               end)
+           else
 
+           end
+       end
+   }) 
+   
