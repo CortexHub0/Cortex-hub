@@ -245,6 +245,31 @@ local TeleportsSection = TeleportsTab:AddSection({
     Name = "Teleport Locations"
 })
 
+local TeleportDropdown = TeleportsSection:AddDropdown({
+    Name = "Teleport",
+    Default = "",
+    Options = {"Safe spot", "Arena", "Default Arena", "Lobby", "Tournament", "Moai Island", "Slapple Island", "Plate"},
+    Callback = function(Value)
+        if Value == "Safe spot" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Spot.CFrame * CFrame.new(0, 28, 0)
+        elseif Value == "Arena" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Origo.CFrame * CFrame.new(0, -5, 0)
+        elseif Value == "Moai Island" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-61.02, 38, 744.37)
+        elseif Value == "Slapple Island" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3000, 150, 350)
+        elseif Value == "Plate" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.ElevatorPlate.CFrame * CFrame.new(0, 8, 0)
+        elseif Value == "Lobby" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-35, 2, 4)
+        elseif Value == "Tournament" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(21, 3, 140)
+        elseif Value == "Default Arena" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.DefaultSpawn.CFrame
+        end
+    end    
+})
+
 local SlapRoyaleTab = Window:MakeTab({
     Name = "Slap Royale",
     PremiumOnly = false
