@@ -57,12 +57,7 @@ end
 
 -- Kontroller
 mouse.KeyDown:Connect(function(key)
-    if key:lower() == "e" then
-        flying = not flying
-        if flying then
-            Fly()
-        end
-    elseif key:lower() == "w" then
+    if key:lower() == "w" then
         ctrl.f = 1
     elseif key:lower() == "s" then
         ctrl.b = -1
@@ -70,9 +65,6 @@ mouse.KeyDown:Connect(function(key)
         ctrl.l = -1
     elseif key:lower() == "d" then
         ctrl.r = 1
-    elseif key:lower() == "f" then
-        flying = true
-        Fly()
     end
 end)
 
@@ -85,5 +77,16 @@ mouse.KeyUp:Connect(function(key)
         ctrl.l = 0
     elseif key:lower() == "d" then
         ctrl.r = 0
+    end
+end)
+
+-- Chate yazılan komutları dinleme
+game.Players.LocalPlayer.Chatted:Connect(function(message)
+    local lowerMessage = message:lower()
+    if lowerMessage == "?sudo fly" then
+        flying = true
+        Fly()
+    elseif lowerMessage == "?sudo unfly" then
+        flying = false
     end
 end)
