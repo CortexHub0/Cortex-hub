@@ -1,10 +1,10 @@
+-- Uçma arayüzü oluşturuluyor
 local FlyGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local button = Instance.new("TextButton")
 local TextLabel = Instance.new("TextLabel")
 
---Properties:
-
+-- Arayüzün özellikleri ayarlanıyor
 FlyGui.Name = "FlyGui"
 FlyGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -36,8 +36,6 @@ TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
 TextLabel.TextScaled = true
 TextLabel.TextSize = 14.000
 TextLabel.TextWrapped = true
-
---Scripts:
 
 -- Belirli bir oyuncunun belirli bir metni chat'e gönderme fonksiyonu
 local function sendChatMessage(player, message)
@@ -118,29 +116,32 @@ function Fly()
     game.StarterGui:SetCore("SendNotification", {Title="Fly Deactivated"; Text="WeAreDevs.net"; Duration=1;})
 end
 
---Controls
-mouse.KeyDown:Connect(function(key)
-    if key:lower() == "w" then
+-- Tuş kontrolleri
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.E then
+        Frame.Visible = not Frame.Visible
+    elseif input.KeyCode == Enum.KeyCode.W then
         ctrl.f = 1
-    elseif key:lower() == "s" then
+    elseif input.KeyCode == Enum.KeyCode.S then
         ctrl.b = -1
-    elseif key:lower() == "a" then
-        ctrl.l = -1
-    elseif key:lower() == "d" then
+    elseif input.KeyCode == Enum.KeyCode.A then
+                    ctrl.l = -1
+    elseif input.KeyCode == Enum.KeyCode.D then
         ctrl.r = 1
     end
 end)
 
-mouse.KeyUp:Connect(function(key)
-    if key:lower() == "w" then
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.W then
         ctrl.f = 0
-    elseif key:lower() == "s" then
+    elseif input.KeyCode == Enum.KeyCode.S then
         ctrl.b = 0
-    elseif key:lower() == "a" then
+    elseif input.KeyCode == Enum.KeyCode.A then
         ctrl.l = 0
-    elseif key:lower() == "d" then
+    elseif input.KeyCode == Enum.KeyCode.D then
         ctrl.r = 0
     end
 end)
 
+-- Uçma işlevini başlat
 Fly()
