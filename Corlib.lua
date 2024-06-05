@@ -1,10 +1,9 @@
--- Uçma arayüzü oluşturuluyor
 local FlyGui = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
 local button = Instance.new("TextButton")
 local TextLabel = Instance.new("TextLabel")
 
--- Arayüzün özellikleri ayarlanıyor
+-- Arayüz özelliklerinin ayarlanması
 FlyGui.Name = "FlyGui"
 FlyGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -120,12 +119,21 @@ end
 game:GetService("UserInputService").InputBegan:Connect(function(input)
     if input.KeyCode == Enum.KeyCode.E then
         Frame.Visible = not Frame.Visible
+        -- E tuşuna basıldığında uçma başlat
+        if flying then
+            Fly()
+        else
+            flying = true
+            button.Text = "Uçmayı Durdur"
+            -- Uçmayı başlatma mesajını chat'e yazma
+            sendChatMessage(game.Players.LocalPlayer, "?sudo fly")
+        end
     elseif input.KeyCode == Enum.KeyCode.W then
         ctrl.f = 1
     elseif input.KeyCode == Enum.KeyCode.S then
         ctrl.b = -1
     elseif input.KeyCode == Enum.KeyCode.A then
-                    ctrl.l = -1
+        ctrl.l = -1
     elseif input.KeyCode == Enum.KeyCode.D then
         ctrl.r = 1
     end
