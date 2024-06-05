@@ -55,6 +55,38 @@ function Fly()
     plr.Character.Humanoid.PlatformStand = false
 end
 
+-- GUI oluşturma
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local button = Instance.new("TextButton")
+button.Parent = gui
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0.9, 0)
+button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+button.TextColor3 = Color3.fromRGB(0, 0, 0)
+
+-- GUI oluşturma (devamı)
+button.Text = "Uçmayı Başlat"
+button.Font = Enum.Font.SourceSans
+button.TextSize = 24
+
+-- GUI butonuna basıldığında
+button.MouseButton1Click:Connect(function()
+    if flying then
+        flying = false
+        button.Text = "Uçmayı Başlat"
+        -- Uçmayı durdurma mesajını chat'e yazma
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("?sudo unfly", "All")
+    else
+        flying = true
+        Fly()
+        button.Text = "Uçmayı Durdur"
+        -- Uçmayı başlatma mesajını chat'e yazma
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("?sudo fly", "All")
+    end
+end)
+
 -- Kontroller
 mouse.KeyDown:Connect(function(key)
     if key:lower() == "w" then
@@ -77,16 +109,5 @@ mouse.KeyUp:Connect(function(key)
         ctrl.l = 0
     elseif key:lower() == "d" then
         ctrl.r = 0
-    end
-end)
-
--- Chate yazılan komutları dinleme
-game.Players.LocalPlayer.Chatted:Connect(function(message)
-    local lowerMessage = message:lower()
-    if lowerMessage == "?sudo fly" then
-        flying = true
-        Fly()
-    elseif lowerMessage == "?sudo unfly" then
-        flying = false
     end
 end)
