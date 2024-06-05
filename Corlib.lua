@@ -1,82 +1,89 @@
--- GUI kütüphanesi
-local GUI = {}
+-- Uçuş kodu
 
--- Yeni bir GUI kategorisi oluşturur
-function GUI.newCategory(parent, position, size, title)
-    local categoryFrame = Instance.new("Frame")
-    categoryFrame.Parent = parent
-    categoryFrame.Position = position
-    categoryFrame.Size = size
-    
-    local titleLabel = Instance.new("TextLabel")
-    titleLabel.Parent = categoryFrame
-    titleLabel.Size = UDim2.new(1, 0, 0, 20)
-    titleLabel.BackgroundTransparency = 1
-    titleLabel.Text = title or "Category"
-    titleLabel.TextSize = 18
-    titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    
-    return categoryFrame
-end
+-- Bekleme döngüleri: Oyuncunun ve fare işaretçisinin bulunmasını bekler
+repeat wait() until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
+local mouse = game.Players.LocalPlayer:GetMouse()
 
--- Yeni bir etiket oluşturur
-function GUI.newLabel(parent, position, size, text)
-    local label = Instance.new("TextLabel")
-    label.Parent = parent
-    label.Position = position
-    label.Size = size
-    label.BackgroundTransparency = 1
-    label.Text = text or ""
-    label.TextColor3 = Color3.fromRGB(255, 255, 255)
-    return label
-end
+-- Değişkenler
+local plr = game.Players.LocalPlayer
+local torso = plr.Character.HumanoidRootPart
+local flying = false
+local ctrl = {f = 0, b = 0, l = 0, r = 0}
+local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+local maxspeed = 50
+local speed = 0
+local bg = nil
+local bv = nil
 
--- Yeni bir metin kutusu oluşturur
-function GUI.newTextBox(parent, position, size, text, onChanged)
-    local textBox = Instance.new("TextBox")
-    textBox.Parent = parent
-    textBox.Position = position
-    textBox.Size = size
-    textBox.Text = text or ""
-    textBox.FocusLost:Connect(function(enterPressed)
-        if onChanged then
-            onChanged(textBox.Text, enterPressed)
+-- Uçuş fonksiyonu
+function Fly()
+    bg = Instance.new("BodyGyro", torso)
+    bg.P = 9e4
+    bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+    bg.cframe = torso.CFrame
+    bv = Instance.new("BodyVelocity", torso)
+    bv.velocity = Vector3.new(0, 0.1, 0)
+    bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+    repeat wait()
+        plr.Character.Humanoid.PlatformStand = true
+        if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+            speed = speed + .5 + (speed / maxspeed)
+            if speed > maxspeed then
+                speed = maxspeed
+            end
+        elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+            speed = speed - 1
+            if speed < 0 then
+                speed = 0
+            end
         end
-    end)
-    return textBox
+        if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+            bv.velocity = ((game.Workspace.CurrentCamera.CFrame.lookVector * (ctrl.f + ctrl.b)) + ((game.Workspace.CurrentCamera.CFrame * CFrame.new(ctrl.l + ctrl.r, (ctrl.f + ctrl.b) * .2, 0).p) - game.Workspace.CurrentCamera.CFrame.p)) * speed
+            lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+        elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+            bv.velocity = ((game.Workspace.CurrentCamera.CFrame.lookVector * (lastctrl.f + lastctrl.b)) + ((game.Workspace.CurrentCamera.CFrame * CFrame.new(lastctrl.l + lastctrl.r, (lastctrl.f + lastctrl.b) * .2, 0).p) - game.Workspace.CurrentCamera.CFrame.p)) * speed
+        else
+            bv.velocity = Vector3.new(0, 0.1, 0)
+        end
+        bg.cframe = game.Workspace.CurrentCamera.CFrame * CFrame.Angles(-math.rad((ctrl.f + ctrl.b) * 50 * speed / maxspeed), 0, 0)
+    until not flying
+    ctrl = {f = 0, b = 0, l = 0, r = 0}
+    lastctrl = {f = 0, b = 0, l = 0, r = 0}
+    speed = 0
+    bg:Destroy()
+    bv:Destroy()
+    plr.Character.Humanoid.PlatformStand = false
 end
 
--- Yeni bir buton oluşturur
-function GUI.newButton(parent, position, size, text, onClick)
-    local button = Instance.new("TextButton")
-    button.Parent = parent
-    button.Position = position
-    button.Size = size
-    button.Text = text or ""
-    button.MouseButton1Click:Connect(onClick)
-    return button
-end
+-- Kontroller
+mouse.KeyDown:Connect(function(key)
+    if key:lower() == "e" then
+        flying = not flying
+        if flying then
+            Fly()
+        end
+    elseif key:lower() == "w" then
+        ctrl.f = 1
+    elseif key:lower() == "s" then
+        ctrl.b = -1
+    elseif key:lower() == "a" then
+        ctrl.l = -1
+    elseif key:lower() == "d" then
+        ctrl.r = 1
+    elseif key:lower() == "f" then
+        flying = true
+        Fly()
+    end
+end)
 
--- Yeni bir toggle butonu oluşturur
-function GUI.newToggle(parent, position, size, text, defaultValue, onToggle)
-    local toggleButton = Instance.new("TextButton")
-    toggleButton.Parent = parent
-    toggleButton.Position = position
-    toggleButton.Size = size
-    toggleButton.Text = text or ""
-    toggleButton.AutoButtonColor = false
-    
-    local toggleValue = Instance.new("BoolValue")
-    toggleValue.Name = "ToggleValue"
-    toggleValue.Value = defaultValue or false
-    toggleValue.Parent = toggleButton
-    
-    toggleButton.MouseButton1Click:Connect(function()
-        toggleValue.Value = not toggleValue.Value
-        onToggle(toggleValue.Value)
-    end)
-    
-    return toggleButton
-end
-
-return GUI
+mouse.KeyUp:Connect(function(key)
+    if key:lower() == "w" then
+        ctrl.f = 0
+    elseif key:lower() == "s" then
+        ctrl.b = 0
+    elseif key:lower() == "a" then
+        ctrl.l = 0
+    elseif key:lower() == "d" then
+        ctrl.r = 0
+    end
+end)
