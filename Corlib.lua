@@ -36,8 +36,8 @@ end
 
 -- ESP ve AutoCollect için kontrol işlevi
 local function checkItems(name)
-    for _, item in pairs(workspace:GetChildren()) do
-        if item.Name == name then
+    for _, item in pairs(workspace:GetDescendants()) do
+        if item.Name == name and item:IsA("BasePart") then
             if espEnabled then
                 enableESP(item)
             end
