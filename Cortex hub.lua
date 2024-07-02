@@ -134,6 +134,7 @@ local RetroSection = SpamTab:AddSection({
 })
 
 local RetroSpamEnabled = false
+local RetroAbility = "Rocket Launcher" -- Default value
 
 local RetroSpamToggle = RetroSection:AddToggle({
     Name = "Retro Spam (All gloves)",
@@ -194,7 +195,6 @@ function stopSlapFarm()
 end
 
 local isSlapAuraActive = false
-
 
 local SlapAuraTab = Window:MakeTab({
     Name = "Slap Aura",
@@ -280,10 +280,11 @@ local SlapRoyaleSection = SlapRoyaleTab:AddSection({
     Name = "Anti acid/Anti lava"
 })
 
+local AntiLava, AntiAcid
+
 local ToggleAntiAcidLava = SlapRoyaleSection:AddToggle({
     Name = "Toggle Anti acid/Anti lava",
-    CurrentValue = false,
-    Flag = "ToggleAntiAcidLava",
+    Default = false,
     Callback = function(Value)
         if Value then
             if AntiLava then
@@ -337,5 +338,14 @@ BadgeSection:AddButton({
         game:GetService("TeleportService"):Teleport(11828384869)
     end
 })
+
+-- Kick hook example (not complete, need to define 'player')
+local Kick
+Kick = hookmetamethod(player, "__namecall", function(Self, ...)
+    if getnamecallmethod() == "Kick" then
+        return
+    end
+    return Kick(Self, ...)
+end)
 
 OrionLib:Init()
