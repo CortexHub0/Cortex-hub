@@ -1,4 +1,4 @@
-
+CorLib
 
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -35,7 +35,7 @@ local Success, Response = pcall(function()
 end)
 
 if not Success then
-	warn("\nCortex Library - Failed to load Feather Icons. Error code: " .. Response .. "\n")
+	warn("\nCorLib - Failed to load Feather Icons. Error code: " .. Response .. "\n")
 end	
 
 local function GetIcon(IconName)
@@ -47,7 +47,7 @@ local function GetIcon(IconName)
 end   
 
 local Orion = Instance.new("ScreenGui")
-Orion.Name = "Cortex"
+Orion.Name = "Orion"
 if syn then
 	syn.protect_gui(Orion)
 	Orion.Parent = game.CoreGui
@@ -225,7 +225,7 @@ local function LoadCfg(Config)
 				end    
 			end)
 		else
-			warn("Cor Config Loader - Could not find ", a ,b)
+			warn("CorLib Config Loader - Could not find ", a ,b)
 		end
 	end)
 end
@@ -471,14 +471,14 @@ function OrionLib:MakeWindow(WindowConfig)
 	local UIHidden = false
 
 	WindowConfig = WindowConfig or {}
-	WindowConfig.Name = WindowConfig.Name or "C"
+	WindowConfig.Name = WindowConfig.Name or "CorLib"
 	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or WindowConfig.Name
 	WindowConfig.SaveConfig = WindowConfig.SaveConfig or false
 	WindowConfig.HidePremium = WindowConfig.HidePremium or false
 	if WindowConfig.IntroEnabled == nil then
 		WindowConfig.IntroEnabled = true
 	end
-	WindowConfig.IntroText = WindowConfig.IntroText or "C"
+	WindowConfig.IntroText = WindowConfig.IntroText or "CorLib"
 	WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
