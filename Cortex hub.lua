@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+local Corlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
     Name = "Cortex hub",
@@ -16,7 +16,7 @@ local MainSection = MainTab:AddSection({
     Name = "Main"
 })
 
-OrionLib:MakeNotification({
+CorLib:MakeNotification({
     Name = "Thanks for using Corhub",
     Content = "Notification Content",
     Time = 3
@@ -348,4 +348,4 @@ Kick = hookmetamethod(player, "__namecall", function(Self, ...)
     return Kick(Self, ...)
 end)
 
-OrionLib:Init()
+CorLib:Init()
