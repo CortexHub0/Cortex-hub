@@ -1,7 +1,7 @@
 local Corlib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Cortex hub",
+    Name = "Lotus Hub",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "OrionConfig"
@@ -17,7 +17,7 @@ local MainSection = MainTab:AddSection({
 })
 
 CorLib:MakeNotification({
-    Name = "Thanks for using Corhub",
+    Name = "Thanks for using Lotus Hub",
     Content = "Notification Content",
     Time = 3
 })
@@ -25,7 +25,7 @@ CorLib:MakeNotification({
 local NoCooldownEnabled = false
 
 local Button = MainSection:AddButton({
-    Name = "No cooldown",
+    Name = "No Cooldown",
     Callback = function()
         NoCooldownEnabled = not NoCooldownEnabled
         if NoCooldownEnabled then
@@ -36,7 +36,7 @@ local Button = MainSection:AddButton({
             if tool then
                 local localscript = tool:FindFirstChildOfClass("LocalScript")
                 if localscript then
-                    while character.Humanoid.Health ~= 0 and NoCooldownEnabled do
+                    while character.Humanoid.Health > 0 and NoCooldownEnabled do
                         local localscriptclone = localscript:Clone()
                         localscript:Destroy()
                         localscriptclone.Parent = tool
@@ -158,26 +158,26 @@ local RetroAbilityDropdown = RetroSection:AddDropdown({
 })
 
 local SlapFarmTab = Window:MakeTab({
-    Name = "Slap farm",
+    Name = "Slap Farm",
     PremiumOnly = false
 })
 
 local SlapFarmSection = SlapFarmTab:AddSection({
-    Name = "Slap farm"
+    Name = "Slap Farm"
 })
 
 local SlapFarmEnabled = false
 
 local SlapFarmToggle = SlapFarmSection:AddToggle({
-    Name = "Slap farm",
+    Name = "Slap Farm",
     Default = false,
     Callback = function(Value)
         SlapFarmEnabled = Value
         if SlapFarmEnabled then
-            print("Slap farm started")
+            print("Slap Farm Started")
             startSlapFarm()
         else
-            print("Slap farm stopped")
+            print("Slap Farm Stopped")
             stopSlapFarm()
         end
     end,
@@ -249,9 +249,9 @@ local TeleportsSection = TeleportsTab:AddSection({
 local TeleportDropdown = TeleportsSection:AddDropdown({
     Name = "Teleport",
     Default = "",
-    Options = {"Safe spot", "Arena", "Default Arena", "Lobby", "Tournament", "Moai Island", "Slapple Island", "Plate"},
+    Options = {"Safe Spot", "Arena", "Default Arena", "Lobby", "Tournament", "Moai Island", "Slapple Island", "Plate"},
     Callback = function(Value)
-        if Value == "Safe spot" then
+        if Value == "Safe Spot" then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.Spot.CFrame * CFrame.new(0, 28, 0)
         elseif Value == "Arena" then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.workspace.Origo.CFrame * CFrame.new(0, -5, 0)
@@ -277,40 +277,16 @@ local SlapRoyaleTab = Window:MakeTab({
 })
 
 local SlapRoyaleSection = SlapRoyaleTab:AddSection({
-    Name = "Anti acid/Anti lava"
+    Name = "Anti Acid/Anti Lava"
 })
 
 local AntiLava, AntiAcid
 
 local ToggleAntiAcidLava = SlapRoyaleSection:AddToggle({
-    Name = "Toggle Anti acid/Anti lava",
+    Name = "Toggle Anti Acid/Anti Lava",
     Default = false,
     Callback = function(Value)
         if Value then
-            if AntiLava then
-                AntiLava:Destroy()
-            end
-            if AntiAcid then
-                AntiAcid:Destroy()
-            end
-            AntiLava = Instance.new("Part")
-            AntiLava.Name = "AntiLava"
-            AntiLava.Position = Vector3.new(-238, -43, 401)
-            AntiLava.Size = Vector3.new(150, 30, 150)
-            AntiLava.Anchored = true
-            AntiLava.Transparency = 1
-            AntiLava.CanCollide = false
-            AntiLava.Parent = workspace
-
-            AntiAcid = Instance.new("Part")
-            AntiAcid.Name = "AntiAcid"
-            AntiAcid.Position = Vector3.new(-70, -20, -725)
-            AntiAcid.Size = Vector3.new(155, 35, 144)
-            AntiAcid.Anchored = true
-            AntiAcid.Transparency = 1
-            AntiAcid.CanCollide = false
-            AntiAcid.Parent = workspace
-        else
             if AntiLava then
                 AntiLava:Destroy()
                 AntiLava = nil
@@ -319,33 +295,51 @@ local ToggleAntiAcidLava = SlapRoyaleSection:AddToggle({
                 AntiAcid:Destroy()
                 AntiAcid = nil
             end
+
+            AntiAcid = game.Players.LocalPlayer.Character.HumanoidRootPart.Touched:Connect(function(hit)
+                if hit:IsA("Part") and (hit.Name == "Acid" or hit.Name == "Lava") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(0, 1000, 0)
+                end
+            end)
+        else
+            if AntiAcid then
+                AntiAcid:Destroy()
+                AntiAcid = nil
+            end
+            if AntiLava then
+                AntiLava:Destroy()
+                AntiLava = nil
+            end
         end
     end
 })
 
-local BadgeTab = Window:MakeTab({
-    Name = "Badge teleport",
+local MiscTab = Window:MakeTab({
+    Name = "Misc",
     PremiumOnly = false
 })
 
-local BadgeSection = BadgeTab:AddSection({
-    Name = "Elude/Counter"
+local MiscSection = MiscTab:AddSection({
+    Name = "Miscellaneous"
 })
 
-BadgeSection:AddButton({
-    Name = "Teleport",
+MiscSection:AddButton({
+    Name = "Fix Character",
     Callback = function()
-        game:GetService("TeleportService"):Teleport(11828384869)
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character:MoveTo(Vector3.new(0, 1000, 0))
+        end
     end
 })
 
--- Kick hook example (not complete, need to define 'player')
-local Kick
-Kick = hookmetamethod(player, "__namecall", function(Self, ...)
-    if getnamecallmethod() == "Kick" then
-        return
+MiscSection:AddButton({
+    Name = "Rejoin",
+    Callback = function()
+        game.Players.LocalPlayer:Kick("Rejoining...")
+        wait(1)
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
     end
-    return Kick(Self, ...)
-end)
+})
 
-CorLib:Init()
+OrionLib:Init()
